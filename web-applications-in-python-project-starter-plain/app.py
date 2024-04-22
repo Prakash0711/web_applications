@@ -53,6 +53,46 @@ def waving():
     name = request.args['name']
     return f"I am waving at {name}"
 
+@app.route('/count_vowels', methods=['POST'])
+def post_count_vowels():
+    text = request.form['text']
+    vowels = ['a','e','i','o','u']
+    count = 0
+    for c in text:
+        if c in vowels:
+            count += 1
+    return f"There are {count} vowels in " + '"' + text + '"'
+           
+@app.route('/sort-names', methods=['POST'])
+def sort_names():
+    name_list = []
+    text = request.form['names']
+    name_list = text.split(",")
+    print(name_list)
+    name_list.sort()
+    print(name_list)
+    result_str = ""
+    for item in name_list:
+        result_str += item + ","
+    print(result_str)
+    return result_str[:-1]
+
+"""
+# Request:
+GET /names?add=Eddie
+
+# This route should return a list of pre-defined names, plus the name given.
+
+# Expected response (2OO OK):
+Julia, Alice, Karim, Eddie
+"""
+
+@app.route('/names', methods=['GET'])
+def add_name_given():
+    name_str = "Alice, Joe, Julia"
+    text = request.args['add']
+    return name_str + ", " + text
+
 # To make a request, run:
 # curl "http://localhost:5000/hello?name=David"
 # == Example Code Below ==
