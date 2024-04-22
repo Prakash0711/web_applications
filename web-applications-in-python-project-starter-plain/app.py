@@ -5,7 +5,56 @@ from flask import Flask, request
 app = Flask(__name__)
 
 # == Your Routes Here ==
+@app.route('/', methods=['POST'])
+def post_index():
+    return "Not me! :("
 
+@app.route('/hello', methods=['GET'])
+def get_hello():
+    # DOES NOT RUN: The path (`/hello`) doesn't match the route's (`/`)
+    return "Not me either!"
+
+@app.route('/', methods=['GET'])
+def get_index():
+    # RUNS: This route matches! The code inside the block will be executed now.
+    return "I am the chosen one!"
+
+@app.route('/', methods=['GET'])
+def other_get_index():
+    # DOES NOT RUN: This route also matches, but will not be executed.
+    # Only the first matching route (above) will run.
+    return "It isn't me, the other route stole the show"
+
+# Request:
+# GET /hello?name=David
+
+@app.route('/hello', methods=['GET'])
+def hello():
+    name = request.args['name'] # The value is 'David'
+
+    # Send back a friendly greeting with the name
+    return f"Hello {name}!"
+
+@app.route('/goodbye', methods=['POST'])
+def goodbye():
+    name = request.form['name'] # The value is 'Alice'
+
+    # Send back a fond farewell with the name
+    return f"Goodbye {name}!"
+
+@app.route('/submit', methods=['POST'])
+def thx_name_hello_world():
+    name = request.form['name']
+    message = request.form['message']
+    return f'Thanks {name}, you sent this message: "{message}"'
+
+@app.route('/wave', methods=['GET'])
+def waving():
+    name = request.args['name']
+    return f"I am waving at {name}"
+
+# To make a request, run:
+# curl "http://localhost:5000/hello?name=David"
 # == Example Code Below ==
 
 # GET /emoji
