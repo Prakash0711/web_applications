@@ -1,8 +1,8 @@
 from lib.album_repository import AlbumRepository
 
 """
-When I call POST /albums with album info
-That album is now in the list in GET /albums
+When I call GET /albums 
+Returns all the albums
 """
 
 def test_get_albums(db_connection, web_client):
@@ -56,3 +56,40 @@ def test_post_albums(db_connection, web_client):
         "Album(11, Fodder on My Wings, 1982, 4)\n" \
         "Album(12, Ring Ring, 1973, 2)\n" \
         "Album(13, In Ear Park, 2008, 1)" 
+
+"""
+When I call GET /albums 
+Returns all the albums
+"""
+
+def test_get_artists(db_connection, web_client):
+    db_connection.seed("/Users/prakashvijayanath/Projects/web_applications/record_store/seeds/record_store.sql")
+    response = web_client.get("/artists")
+    assert response.status_code == 200
+    assert response.data.decode("utf-8") == "Artist(1, Pixies, Rock)\n" \
+    "Artist(2, ABBA, Pop)\n" \
+    "Artist(3, Taylor Swift, Pop)\n" \
+    "Artist(4, Nina Simone, Jazz)" 
+
+"""
+When I call POST /artists with artist info
+That artist is now in the list in GET /artists
+"""
+
+def test_post_artists(db_connection, web_client):
+    db_connection.seed("/Users/prakashvijayanath/Projects/web_applications/record_store/seeds/record_store.sql")
+    post_response = web_client.post("/artists", data={
+        "artist_name": "Drake",
+        "genre": "Hip-Hop"
+    })
+
+    assert post_response.status_code == 200
+    assert post_response.data.decode("utf-8") == ""
+
+    get_response = web_client.get("/artists")
+    assert get_response.status_code == 200
+    assert get_response.data.decode("utf-8") == "Artist(1, Pixies, Rock)\n" \
+    "Artist(2, ABBA, Pop)\n" \
+    "Artist(3, Taylor Swift, Pop)\n" \
+    "Artist(4, Nina Simone, Jazz)\n" \
+    "Artist(5, Drake, Hip-Hop)"

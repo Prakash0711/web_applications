@@ -27,10 +27,10 @@ CREATE TABLE albums (
 -- Seed artists table
 INSERT INTO artists (id, artist_name, genre)
 VALUES
-    (1, 'Pixies', 'Rock'),
-    (2, 'ABBA', 'Pop'),
-    (3, 'Taylor Swift', 'Pop'),
-    (4, 'Nina Simone', 'Jazz')
+    (nextval('artists_id_seq'), 'Pixies', 'Rock'),
+    (nextval('artists_id_seq'), 'ABBA', 'Pop'),
+    (nextval('artists_id_seq'), 'Taylor Swift', 'Pop'),
+    (nextval('artists_id_seq'), 'Nina Simone', 'Jazz')
     -- Add more artists here
     ;
 
