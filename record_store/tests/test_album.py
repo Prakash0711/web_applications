@@ -18,3 +18,7 @@ def test_compares():
     album1 = Album(1, "test title", 1000, 2)
     album2 = Album(1, "test title", 1000, 2)
     assert album1 == album2
+
+def test_stringify():
+    album = Album(1, "test title", 1000, 2)
+    assert str(album) == "Album(1, test title, 1000, 2)"
